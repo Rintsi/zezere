@@ -1,3 +1,6 @@
+# Local configuration
+zezere.conf
+
 # Static files
 zezere/static/netboot/
 static/
