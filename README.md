@@ -49,13 +49,6 @@ Before you can install the python requirements you need to have Apache httpd
 installed. Please follow instructions from
 [mod-wsgi project documentation](https://pypi.org/project/mod-wsgi/)
 
-In order to satisfy the `psycopg2` dependency please follow instructions from
-[psycopg2 project documentation](https://www.psycopg.org/docs/install.html).
-
-```
-$ pip install psycopg2-binary
-```
-
 After the prequisites have been met we can install required packages:
 
 ```
