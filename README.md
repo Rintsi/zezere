@@ -30,7 +30,7 @@ $ docker run --detach --rm --name zezere \
 The default signing algorithm is `RS256` but it can also be controlled with the
 environment variable `OIDC_OP_SIGN_ALGO`
 
-### Running locally
+### Running with Python
 
 If you're using any Python virtual environment you might want to setup that
 first. With conda it would look something like this:
