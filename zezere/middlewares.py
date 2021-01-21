@@ -1,13 +1,13 @@
-class MySecurityMiddleware(object):
+class ZezereSecurityMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         response = self.get_response(request)
         response["Content-Security-Policy"] = (
-            "default-src; "
-            + "style-src https://apps.fedoraproject.org/;"
-            + "script-src https://apps.fedoraproject.org/;"
-            + "font-src https://apps.fedoraproject.org/;"
+            "default-src http://localhost:8080; "
+            + "style-src https://unpkg.com/ 'nonce-ii98asdj23dfn2';"
+            + "script-src https://unpkg.com/ https://cdnjs.cloudflare.com/ http://localhost:8080;"
+            + "font-src https://unpkg.com/;"
         )
         return response
