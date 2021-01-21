@@ -7,7 +7,6 @@ from django.urls import path, include
 
 from .settings_external import get
 
-
 def urls_oidc():
     return [
         path("oidc/", include("mozilla_django_oidc.urls"), name="oidc"),
@@ -17,7 +16,6 @@ def urls_oidc():
             name="login",
         ),
     ]
-
 
 AUTH_METHODS: Dict[str, Any] = {
     "oidc": {
