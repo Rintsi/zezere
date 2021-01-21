@@ -1,0 +1,27 @@
+{% load patternfly %}
+{% load static %}
+
+<html>
+    <head>
+        <title>{% block title %}Master title{% endblock %}</title>
+        {% patternfly_css %}
+        {% if 'javascript_in_head'|bootstrap_setting %}
+          {% bootstrap_javascript %}
+        {% endif %}
+        <style nonce="ii98asdj23dfn2">
+          #zezere-background::before {
+            background-image: url('/static/zezere_background.jpg') !important;;
+            background-size: cover !important;;
+            background-position: center !important;;
+            background-repeat: no-repeat !important;
+
+          }
+        </style>
+    </head>
+    <body>
+      {% block patternfly_content %}
+          Page Contents
+      {% endblock %}
+      <script src="{% static 'zezere.js' %}"></script>
+    </body>
+</html>

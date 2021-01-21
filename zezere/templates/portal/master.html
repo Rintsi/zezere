@@ -1,82 +1,120 @@
+{% extends "../page.html" %}
+
 {% load rules %}
+{% load patternfly %}
+{% load active_link_tags %}
 
-<html>
-    <head>
-        <title>{% block title %}Master title{% endblock %}</title>
-
-        <link rel="stylesheet" type="text/css" href="https://apps.fedoraproject.org/bootstrap-3.1.1-fedora/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://apps.fedoraproject.org/bootstrap-3.1.1-fedora/css/bootstrap-theme.min.css">
-        <script defer src="https://apps.fedoraproject.org/bootstrap-3.1.1-fedora/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-    <nav class="navbar navbar-default navbar-pf" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">
-                <!--<img src="/media/network-wired.svg" alt="Sample Image" />-->Zezere
-            </a>
-        </div>
-      <div class="collapse navbar-collapse navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-utility">
-          <li class="dropdown">
-            <button class="btn btn-link nav-item-iconic" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              <span title="Help" class="fa pficon-help dropdown-title"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#0">Help</a></li>
-              <li><a href="#0">About</a></li>
-            </ul>
-          </li>
-        {% if user.is_authenticated %}
-          <li class="dropdown">
-            <button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
-              <span class="pficon pficon-user"></span>
-              <span class="dropdown-title">
-                {{ user.get_username }}<b class="caret"></b>
-              </span>
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="/accounts/logout">Logout</a>
-              </li>
-            </ul>
-          </li>
-        {% endif %}
-        </ul>
-        <ul class="nav navbar-nav navbar-primary">
-        {% if user.is_authenticated %}
-            <li class="active">
-              <a href="/portal" class="active">Home</a>
+{% block patternfly_content %}
+<div class="pf-u-h-100">
+  <div class="pf-c-page">
+    <header class="pf-c-page__header">
+      <div class="pf-c-page__header-brand">
+        <a href="#" class="pf-c-page__header-brand-link">
+          Zezere
+        </a>
+      </div>
+      <div class="pf-c-page__header-nav">
+        <nav class="pf-c-nav pf-m-horizontal pf-m-scrollable" id="page-layout-horizontal-nav-horizontal-nav" aria-label="Global">
+          <button class="pf-c-nav__scroll-button" disabled="" aria-label="Scroll left">
+            <i class="fas fa-angle-left" aria-hidden="true"></i>
+          </button>
+          <ul class="pf-c-nav__list">
+          {% if user.is_authenticated %}
+            {% with request.resolver_match.url_name as url_name %}
+            <li class="pf-c-nav__item active">
+              <a class="pf-c-nav__link {% active_link 'portal_index' 'pf-m-current' strict=True %}" href="{% url 'portal_index' %}">Home</a>
             </li>
-            <li>
-              <a href="/portal/claim">Claim Unowned Devices</a>
+            <li class="pf-c-nav__item">
+              <a class="pf-c-nav__link {% active_link 'portal_claim' 'pf-m-current' %}" href="{% url 'portal_claim' %}">Claim Unowned Devices</a>
             </li>
-            <li>
-              <a href="/portal/sshkeys">SSH Key Management</a>
+            <li class="pf-c-nav__item">
+              <a class="pf-c-nav__link {% active_link 'portal_sshkeys' 'pf-m-current' %}" href="{% url 'portal_sshkeys' %}">SSH Key Management</a>
             </li>
-            <li>
-              <a href="/portal/devices">Device Management</a>
+            <li class="pf-c-nav__item">
+              <a class="pf-c-nav__link {% active_link 'portal_devices' 'pf-m-current' %}" href="{% url 'portal_devices' %}">Device Management</a>
             </li>
-        {% else %}
-            <li>
+            {% endwith %}
+          {% else %}
+            <li class="pf-c-nav__item">
               <a href="/accounts/login">Log In</a>
             </li>
-        {% endif %}
-        </ul>
+          {% endif %}
+          </ul>
+          <button class="pf-c-nav__scroll-button" aria-label="Scroll right">
+            <i class="fas fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </nav>
       </div>
-    </nav>
-
-    <div class="container">
-        {% block content %}
-        Master content
-        {% endblock %}
-    </div>
-
-      <div class="footer pt-4 text-white">
-        <div class="container">
-          <div class="d-flex align-items-center">
-            <p>&copy; 2020 Copyright Information Goes Here</p>
+      <div class="pf-c-page__header-tools">
+        <!--<div class="pf-c-page__header-tools-group">
+          <div class="pf-c-page__header-tools-item pf-m-hidden pf-m-visible-on-lg">
+            <button class="pf-c-button pf-m-plain" type="button" aria-label="Settings">
+              <i class="fas fa-cog" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="pf-c-page__header-tools-item pf-m-hidden pf-m-visible-on-lg">
+            <button class="pf-c-button pf-m-plain" type="button" aria-label="Help">
+              <i class="pf-icon pf-icon-help" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>-->
+        <div class="pf-c-page__header-tools-group">
+          <!--<div class="pf-c-page__header-tools-item pf-m-hidden-on-lg">
+            <div class="pf-c-dropdown">
+              <button class="pf-c-dropdown__toggle pf-m-plain" type="button" id="page-layout-horizontal-nav-dropdown-kebab-right-aligned-1-button" aria-expanded="false" aria-label="Actions">
+                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+              </button>
+              <ul class="pf-c-dropdown__menu pf-m-align-right" aria-labelledby="page-layout-horizontal-nav-dropdown-kebab-right-aligned-1-button" hidden="">
+                <li>
+                  <a class="pf-c-dropdown__menu-item" href="#">Link</a>
+                </li>
+                <li>
+                  <button class="pf-c-dropdown__menu-item" type="button">Action</button>
+                </li>
+                <li>
+                  <a class="pf-c-dropdown__menu-item pf-m-disabled" href="#" aria-disabled="true" tabindex="-1">Disabled link</a>
+                </li>
+                <li>
+                  <button class="pf-c-dropdown__menu-item" type="button" disabled="">Disabled action</button>
+                </li>
+                <li class="pf-c-divider" role="separator"></li>
+                <li>
+                  <a class="pf-c-dropdown__menu-item" href="#">Separated link</a>
+                </li>
+              </ul>
+            </div>
+          </div>-->
+          <div class="pf-c-page__header-tools-item pf-m-hidden pf-m-visible-on-md">
+            <div class="pf-c-dropdown">
+              <button class="pf-c-dropdown__toggle pf-m-plain" type="button" id="user-menu-button" aria-expanded="false">
+                <span class="pf-c-dropdown__toggle-text">{{ user.get_username }}</span>
+                <span class="pf-c-dropdown__toggle-icon">
+                  <i class="fas fa-caret-down" aria-hidden="true"></i>
+                </span>
+              </button>
+              <ul id="user-menu" class="pf-c-dropdown__menu" hidden>
+                <li>
+                  <a class="pf-c-dropdown__menu-item" href="{% url 'logout' %}">Log Out</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+        <img class="pf-c-avatar" src="/static/img_avatar.svg" alt="Avatar image">
       </div>
-    </body>
-</html>
+    </header>
+
+    <div class="pf-c-page__main">
+      <section class="pf-c-page__main-section pf-m-limit-width pf-m-light ">
+        <div class="pf-c-page__main-body">
+          <div class="pf-c-content">
+            {% block master_content %}
+              Master content
+            {% endblock %}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}

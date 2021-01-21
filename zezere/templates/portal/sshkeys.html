@@ -4,34 +4,47 @@
 
 {% block title %}SSH Keys{% endblock %}
 
-{% block content %}
-Your SSH Keys:
-<table border="1">
-
-    <tr>
-        <th>Key</th>
-        <th>Actions</th>
-    </tr>
-    {% for sshkey in sshkeys %}
-        <tr>
-            <td>{{ sshkey.key }}</td>
-            <td>
+{% block master_content %}
+<h1>SSH Keys</h1>
+<table class="pf-c-table pf-m-grid-md" role="grid" aria-label="This is a simple table example" id="table-basic">
+    <caption>Your active SSH Keys</caption>
+    <thead>
+      <tr role="row">
+        <th role="columnheader" scope="col">Key</th>
+        <th role="columnheader" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody role="rowgroup">
+        {% for sshkey in sshkeys %}
+        <tr role="row">
+            <td role="cell" data-label="Key">{{ sshkey.key }}</td>
+            <td role="cell" data-label="Actions">
                 <form method="POST" action="/portal/sshkeys/delete/">
                     {% csrf_token %}
                     <input type="hidden" name="sshkey_id" value="{{ sshkey.id }}">
-                    <input type="submit" value="Delete key">
+                    <input type="submit" class="pf-c-button pf-m-primary" value="Delete key">
                 </form>
             </td>
         </tr>
-    {% endfor %}
+        {% endfor %}
+    </tbody>
 </table>
-
-Add a new key:
+<h2>Add a new key</h2>
 <form method="POST" action="/portal/sshkeys/add/">
     {% csrf_token %}
-    Key contents:
-    <textarea name="sshkey"></textarea>
-    <input type="submit" value="Add key">
+    <div class="pf-c-form__group pf-u-pt-md">
+        <div class="pf-c-form__group pf-u-pt-md">
+            <label class="pf-c-form__label" for="sshkey">
+                <span class="pf-c-form__label-text">Key contents</span>
+            </label>
+            <div class="pf-c-form__group-control">
+                <textarea class="pf-c-form-control" id="sshkey" name="sshkey"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="pf-c-form__group pf-u-pt-md">
+        <input type="submit" class="pf-c-button pf-m-primary" value="Add key">
+    </div>
 </form>
 
 {% endblock %}

@@ -4,22 +4,40 @@
 
 {% block title %}Claim unowned devices{% endblock %}
 
-{% block content %}
-{% if super %}
-Unowned devices:
-{% else %}
-Unowned devices from this IP address:
-{% endif %}
-{% for device in unclaimed_devices %}
+{% block master_content %}
+<h1>Claim</h1>
+netsh interface portproxy add v4tov4 listenport=8080 listenaddress=0.0.0.0 connectport=8080 connectaddress=172.30.150.100
+<table class="pf-c-table pf-m-grid-md" role="grid" aria-label="This is a simple table example" id="table-basic">
+    {% if super %}
+    <caption>Unowned devices</caption>
+    {% else %}
+    <caption>Unowned devices from this IP address</caption>
+    {% endif %}
+    <thead>
+      <tr role="row">
+        <th role="columnheader" scope="col">MAC Address</th>
+        <th role="columnheader" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody role="rowgroup">
+        {% for device in unclaimed_devices %}
     {% has_perm 'zezere.claim_device' user device as can_claim_device %}
     {% if can_claim_device %}
         <form method="POST">
-            MAC address: {{ device.mac_address }}
-            {% csrf_token %}
-            <input type="hidden" name="mac_address" value="{{ device.mac_address }}">
-            <input type="submit" value="Claim">
+            <tr role="row">
+                <td role="cell" data-label="MAC Address">{{ device.mac_address }}</td>
+                <td role="cell" data-label="Actions">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="mac_address" value="{{ device.mac_address }}">
+                        <input type="submit" class="pf-c-button pf-m-primary" value="Claim">
+                    </form>
+                </td>
+            </tr>
         </form>
         <br />
     {% endif %}
 {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

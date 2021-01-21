@@ -4,38 +4,55 @@
 
 {% block title %}Device list{% endblock %}
 
-{% block content %}
-Your devices:
-<table border="1">
-    <tr>
-        <th>Mac Address</th>
-        <th>Hostname</th>
-        <th>Run Request</th>
-        <th>Actions</th>
-    </tr>
-    {% for device in devices %}
+{% block master_content %}
+<h1>Devices</h1>
+<table class="pf-c-table pf-m-grid-md" role="grid" aria-label="This is a simple table example" id="table-basic">
+    <caption>Your devices</caption>
+    <thead>
+      <tr role="row">
+        <th role="columnheader" scope="col">Mac Address</th>
+        <th role="columnheader" scope="col">Hostname</th>
+        <th role="columnheader" scope="col">Run Request</th>
+        <th role="columnheader" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody role="rowgroup">
+        {% for device in devices %}
         {% has_perm 'zezere.view_device' user device as can_view_device %}
         {% if can_view_device %}
-            <tr>
-                <td>{{ device.mac_address }}</td>
-                <td>{{ device.hostname }}</td>
-                <td>
+            <tr role="row">
+                <td role="cell" data-label="Mac Address">{{ device.mac_address }}</td>
+                <td role="cell" data-label="Hostname">{{ device.hostname }}</td>
+                <td role="cell" data-label="Run Request">
                     {% if device.run_request %}
                         {{ device.run_request }}
                     {% endif %}
                 </td>
-                <td>
+                <td role="cell" data-label="Actions">
                     {% if device.run_request %}
                         <form method="POST" action="/portal/devices/runreq/{{ device.mac_address }}/clean/">
                             {% csrf_token %}
-                            <input type="submit" value="Cancel runrequest">
+                            <input type="submit" class="pf-c-button pf-m-primary" value="Cancel runrequest">
                         </form>
                     {% else %}
-                        <a href="/portal/devices/runreq/{{ device.mac_address }}">Submit provision request</a>
+                        <a href="/portal/devices/runreq/{{ device.mac_address }}" class="pf-c-button pf-m-link">Submit provision request</a>
                     {% endif %}
                 </td>
             </tr>
         {% endif %}
     {% endfor %}
-</table>
+        {% for sshkey in sshkeys %}
+        <tr role="row">
+            <td role="cell" data-label="Key">{{ sshkey.key }}</td>
+            <td role="cell" data-label="Actions">
+                <form method="POST" action="/portal/sshkeys/delete/">
+                    {% csrf_token %}
+                    <input type="hidden" name="sshkey_id" value="{{ sshkey.id }}">
+                    <input type="submit" class="pf-c-button pf-m-primary" value="Delete key">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
