@@ -44,6 +44,8 @@ INSTALLED_APPS = (
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
+        "active_link",
+        "patternfly"
     ]
     + AUTH_INFO["installed_apps"]
     + ["rest_framework", "rules.apps.AutodiscoverRulesConfig", "zezere"]
