@@ -6,3 +6,5 @@ rules
 requests
 mozilla-django-oidc
 mod_wsgi
+django-patternfly
+django-active-link
