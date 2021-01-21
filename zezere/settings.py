@@ -2,7 +2,6 @@ from typing import Dict
 
 import os
 
-
 from .settings_external import get, getboolean
 from .settings_auth import AUTH_INFO
 
@@ -10,7 +9,6 @@ from .settings_auth import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get("global", "secret_key", "SECRET_KEY")
@@ -58,7 +56,7 @@ if AUTH_INFO.get("drf_default_authentication_classes"):  # pragma: no cover
     ]
 
 MIDDLEWARE = [
-    "zezere.middlewares.MySecurityMiddleware",
+    "zezere.middlewares.ZezereSecurityMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -163,3 +161,11 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+# Settings for django-patternfly
+PATTERNFLY = {
+    "error_css_class": "patternfly-error",
+    "required_css_class": "patternfly-required",
+    "javascript_in_head": True,
+    "include_jquery": True,
+}
