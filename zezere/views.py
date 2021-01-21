@@ -8,29 +8,23 @@ from rest_framework import viewsets
 
 from zezere.models import Device, UnownedDeviceSerializer
 
-
 def index(request):
     return redirect("/portal/")
 
-
 def ping(request):
     return HttpResponse("Pong")
-
 
 def logout(request):
     django_logout(request)
     return redirect("index")
 
-
 def profile(request):
     return redirect("/")
-
 
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
-
 
 class UnownedDevicesViewSet(viewsets.ModelViewSet):
     """
