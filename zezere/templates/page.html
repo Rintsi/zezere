@@ -5,7 +5,7 @@
     <head>
         <title>{% block title %}Master title{% endblock %}</title>
         {% patternfly_css %}
-        {% if 'javascript_in_head'|bootstrap_setting %}
+        {% if 'javascript_in_head'|patternfly_setting %}
           {% bootstrap_javascript %}
         {% endif %}
         <style nonce="ii98asdj23dfn2">
