@@ -55,7 +55,15 @@ After the prequisites have been met we can install required packages:
 $ pip install .
 ```
 
-Before using the `zezere-manage` tool, a configuration needs to be created.
+Before using the `zezere-manage` tool, database and models needs to be migrated
+and a configuration needs to be created.
+
+Synchronize the database state with the current set of models and migrations:
+
+```
+$ python manage.py migrate
+```
+
 Default configuration can be used as a base:
 
 ```
